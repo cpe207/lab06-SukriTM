@@ -1,7 +1,30 @@
 const axios = require("axios");
 
 const getTodo = async (todoId) => {
-  //your code here
+  try{
+    const resp = await axios.get(
+      "https://jsonplaceholder.typicode.com/todos/" + todoId
+    );
+    const todoData = resp.data;
+
+    const userResp = await axios.get(
+      "https://jsonplaceholder.typicode.com/users/" + todoData.userId
+    );
+    const user = userResp.data;
+
+    const result = {
+      owner: user.name,
+      title: todoData.title,
+      completed: todoData.completed,
+    };
+
+    return result;
+  
+  }
+  catch (error){
+    return "INVALID TODO ID"
+  }
+  
 };
 
 //test case
